@@ -19,6 +19,5 @@ int main(void)
 
     test();
     test1();
-
     return 0;
 }
