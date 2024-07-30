@@ -34,10 +34,13 @@ run_app_1: build_app_static link_static_lib
 	@if test -f "./bin/hello_static_stalib" ; then \
 		./bin/hello_static_stalib; \
 	fi
-run_app_2: link_shared_lib
-	@if test -f "./bin/hello_shared_shalib" ; then \
-		./bin/hello_shared_shalib; \
-	fi
+# run_app_2: link_shared_lib
+# 	@if test -f "./bin/hello_shared_shalib" ; then \
+# 		./bin/hello_shared_shalib; \
+# 	fi
+run_app_2:  link_shared_lib
+	LD_LIBRARY_PATH=$(shell pwd)/lib/shared \
+	./bin/hello_shared_shalib
 
 $(BIN_DIR)/hello_static: main.o $(OBJ_TEMP)
 	$(CC) -o $@ $(OBJ_FILES) $(OBJ_DIR)/main.o -I$(INC_DIR)
@@ -71,17 +74,22 @@ hello_shared_fpic: hello_shared.c
 $(LIB_SHA_DIR)/libhello_shared.so: main.o $(OBJ_TEMP)
 	$(CC) -shared $(OBJ_DIR)/hello_shared.o -o $@
 
-# Link dynamically with the shared library
-$(BIN_DIR)/hello_shared_shalib: $(LIB_SHA_DIR)/libhello_shared.so
+# #Link dynamically with the shared library
+# $(BIN_DIR)/hello_shared_shalib: $(LIB_SHA_DIR)/libhello_shared.so
+# 	$(CC) $(OBJ_DIR)/main.o $(OBJ_FILES) -L$(LIB_SHA_DIR) -lhello_shared -o $@
+$(BIN_DIR)/hello_shared_shalib:
 	$(CC) $(OBJ_DIR)/main.o $(OBJ_FILES) -L$(LIB_SHA_DIR) -lhello_shared -o $@
-
+# LD_LIBRARY_PATH=$(pwd)/lib/shared bin/hello_shared_shalib
+# sudo mv /lib/shared/libhello_shared.so /usr/lib
+# sudo chmod 755 /usr/lib/libhello_shared.so
 
 
 
 readSymbol:
 	readelf -sW ./obj/main.o 
 clean:
-	rm -rf $(OUTPUT_DIR)/* $(OBJ_DIR)/* $(LIB_STA_DIR)/* $(LIB_SHA_DIR)/*
+	rm -rf $(OUTPUT_DIR)/* $(OBJ_DIR)/* $(LIB_STA_DIR)/* 
+#$(LIB_SHA_DIR)/*
 
 print-%:
 	@echo $($(subst print-,,$@))

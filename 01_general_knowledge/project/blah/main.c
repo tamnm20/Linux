@@ -2,7 +2,8 @@
 #include "add.h"
 #include "sub.h"
 #include "mul.h"
-#include <hello_static.h>
+#include "hello_static.h"
+#include "hello_shared.h"
 
 void test();
 inline void test() {
@@ -22,6 +23,7 @@ int main(void)
     test();
     test1();
     Hello();
+    Hello_so();
     return 0;
 }
 

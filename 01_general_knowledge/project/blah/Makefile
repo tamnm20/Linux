@@ -6,6 +6,7 @@ SRC_DIR = $(CUR_DIR)/src
 OBJ_DIR := $(CUR_DIR)/obj
 LIB_DIR := $(CUR_DIR)/lib
 LIB_STA_DIR := $(LIB_DIR)/static
+LIB_SHA_DIR := $(LIB_DIR)/shared
 OUTPUT_DIR := $(CUR_DIR)/bin
 BIN_DIR := $(OUTPUT_DIR)
 SRC_FILES := $(wildcard ./src/*.c)
@@ -18,6 +19,7 @@ vpath %.c $(SRC_DIR)
 build_app_static: $(BIN_DIR)/hello_static
 build_static_lib: $(LIB_STA_DIR)/libhello_static.a
 link_static_lib: $(BIN_DIR)/hello_static_stalib
+link_shared_lib: $(BIN_DIR)/hello_shared_shalib
 
 run_app_1: $(BIN_DIR)/hello_static_stalib
 	@if test -f "./bin/hello_static" ; then \
@@ -25,6 +27,10 @@ run_app_1: $(BIN_DIR)/hello_static_stalib
 	fi
 	@if test -f "./bin/hello_static_stalib" ; then \
 		./bin/hello_static_stalib; \
+	fi
+run_app_2: link_shared_lib
+	@if test -f "./bin/hello_shared_shalib" ; then \
+		./bin/hello_shared_shalib; \
 	fi
 
 $(BIN_DIR)/hello_static: main.o $(OBJ_FILES)
@@ -46,14 +52,15 @@ $(BIN_DIR)/hello_static_stalib: main.o $(OBJ_TEMP)
 	$(CC) $(OBJ_DIR)/main.o $(OBJ_FILES) -L$(LIB_STA_DIR) -lhello_static -o $@
 
 # Link dynamically with the shared library
-$(BIN_DIR)/hello_shared_shalib: $(LIB_SHA_DIR)/libhello_shared.so
-	$(CC) $(OBJ_DIR)/main.o $(OBJ_FILES) -L$(LIB_SHA_DIR) -lhello_shared -o $@
+$(BIN_DIR)/hello_shared_shalib: main.o $(OBJ_TEMP)
+	$(CC) $(OBJ_DIR)/main.o $(OBJ_FILES) $(OBJ_DIR)/hello_static.o -lhello_shared -o $@
 
 
 readSymbol:
 	readelf -sW ./obj/main.o 
 clean:
-	rm -rf $(OUTPUT_DIR)/* $(OBJ_DIR)/*
+	rm -rf $(OUTPUT_DIR)/*
+	find $(OBJ_DIR) -type f -name '*.o' ! -name 'hello_static.o' -exec rm -f {} +
 
 print-%:
 	@echo $($(subst print-,,$@))
