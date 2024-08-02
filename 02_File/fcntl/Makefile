@@ -1,10 +1,11 @@
+all: cleana buildw runw buildr runr
 allw: buildw runw
 allr: buildr runr
 
-runw:
-	@./write
 runr:
 	@./read
+runw:
+	@./write
 
 buildw:
 	gcc write.c -o write
