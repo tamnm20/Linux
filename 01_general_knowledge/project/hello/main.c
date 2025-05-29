@@ -24,6 +24,6 @@ int main(void)
     test1();
     Hello();
     Hello_so();
+    share_print();
     return 0;
 }
-
