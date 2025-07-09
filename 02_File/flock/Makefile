@@ -14,5 +14,5 @@ buildB:
 cleanA:
 	rm -rf process_A text.txt
 cleanB:
-	rm -rf process_B
+	rm -rf process_B file.txt
 cleana: cleanA cleanB

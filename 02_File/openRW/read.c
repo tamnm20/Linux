@@ -21,7 +21,7 @@ int main()
     char buf[50]={0};
     ssize_t num_re_byte;
     struct stat fileStat;
-    const char *filename = "test";
+    const char *filename = "file.txt";
     if (stat(filename, &fileStat) < 0) {
         perror("Error getting file information");
         return 1;

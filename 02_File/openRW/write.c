@@ -25,7 +25,7 @@ int main() {
 
     printf("Wrote %zd bytes to file.txt\n", bytesWritten);
 
-    if (lseek(fd, 14, SEEK_SET) == (off_t) -1) {
+    if (lseek(fd, 7, SEEK_SET) == (off_t) -1) {
         perror("Error using lseek");
         close(fd);
         return 1;
@@ -39,6 +39,12 @@ int main() {
         return 1;
     }
     printf("Wrote %zd bytes to file.txt\n", bytesWritten);
+
+    lseek(fd, -1, SEEK_END);
+    write(fd, "Quang Thao Peter.\n", strlen("Quang Thao Peter.\n"));
+
+    lseek(fd, 6, SEEK_CUR);
+    write(fd, "ABC.\n", strlen("ABC.\n"));
     // Đóng file
     close(fd);
     return 0;
