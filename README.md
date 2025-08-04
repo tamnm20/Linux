@@ -13,4 +13,9 @@
 |chmod [tùy chọn] mode tệp/thư_mục|change mode|thay đổi quyền truy cập (permissions) của tệp hoặc thư mục|
 |chown [tùy chọn] chủ_sở_hữu[:nhóm] tệp/thư_mục|change own|thay đổi chủ sở hữu và nhóm của các tệp hoặc thư mục|
 |su [tùy chọn] [tên_người_dùng]|switch user|chuyển đổi sang tài khoản người dùng khác trong cùng một phiên dòng lệnh|
-
+|Ctrl + L (clear)|Clear|Clear terminal|
+|ps aux|process status|Xem các thông số của process|
+|kill -l|kill list|list các lệnh kill|
+|./main|run main|chạy chương trình foreground (không thực hiện được các command line khác)|
+|./main &|run main|chạy chương trình backgroud|
+|lscpu|list CPU|thông tin chi tiết về CPU|
